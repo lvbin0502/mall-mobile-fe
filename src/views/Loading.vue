@@ -14,7 +14,7 @@
 import { auth } from "@libs/wechat";
 
 export default {
-  name: "Loading",
+  name: "Loading1",
   mounted() {
     const { code, state } = this.$route.query;
     auth(code, state)

@@ -66,12 +66,16 @@ export default {
       let that = this,
         list = that.coupon.list;
       if (list[index].is_use === true) return;
-      getCouponReceive(id).then(function() {
-        that.$dialog.toast({ mes: "已领取" });
-        that.$set(list[index], "is_use", true);
-        that.$emit("changefun", { action: "currentcoupon", value: index });
-        that.$emit("changeFun", { action: "changecoupon", value: false });
-      });
+      getCouponReceive(id)
+        .then(function() {
+          that.$dialog.toast({ mes: "已领取" });
+          that.$set(list[index], "is_use", true);
+          that.$emit("changefun", { action: "currentcoupon", value: index });
+          that.$emit("changeFun", { action: "changecoupon", value: false });
+        })
+        .catch(function(res) {
+          that.$dialog.toast({ mes: res.msg });
+        });
     }
   }
 };

@@ -66,7 +66,7 @@
           <input type="text" v-model="userInfo.nickname" />
         </div>
       </div>
-      <div class="item acea-row row-between-wrapper">
+      <div v-if="false" class="item acea-row row-between-wrapper">
         <div>ID号</div>
         <div class="input acea-row row-between-wrapper">
           <input type="text" :value="userInfo.uid" disabled class="id" /><span

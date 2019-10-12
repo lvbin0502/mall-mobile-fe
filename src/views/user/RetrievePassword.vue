@@ -131,7 +131,7 @@ export default {
       } catch (e) {
         return validatorDefaultCatch(e);
       }
-      registerVerify({ phone: that.account })
+      registerVerify({ phone: that.account, type: "reset" })
         .then(res => {
           that.$dialog.success(res.msg);
           that.sendCode();

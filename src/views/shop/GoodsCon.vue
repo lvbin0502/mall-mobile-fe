@@ -64,7 +64,11 @@
     </div>
     <div style="height:1.2rem;"></div>
     <div class="footer acea-row row-between-wrapper">
-      <div class="item" @click="$router.push({ path: '/customer/list' })">
+      <div
+        v-if="false"
+        class="item"
+        @click="$router.push({ path: '/customer/list' })"
+      >
         <div class="iconfont icon-kefu"></div>
         <div>客服</div>
       </div>
@@ -193,7 +197,7 @@
 <script>
 import ProductConSwiper from "@components/ProductConSwiper";
 import UserEvaluation from "@components/UserEvaluation";
-import ShareRedPackets from "@components/ShareRedPackets";
+// import ShareRedPackets from "@components/ShareRedPackets";
 import CouponPop from "@components/CouponPop";
 import ProductWindow from "@components/ProductWindow";
 import StorePoster from "@components/StorePoster";
@@ -212,7 +216,7 @@ export default {
   components: {
     ProductConSwiper,
     UserEvaluation,
-    ShareRedPackets,
+    // ShareRedPackets,
     CouponPop,
     ProductWindow,
     StorePoster,

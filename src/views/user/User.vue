@@ -26,22 +26,22 @@
     </div>
     <div class="wrapper">
       <div class="nav acea-row row-middle">
-        <router-link :to="{ path: '/user/account' }" class="item">
+        <div :to="{ path: '/user/account' }" class="item">
           <div>我的余额</div>
           <div class="num">{{ userInfo.now_money || 0 }}</div>
-        </router-link>
-        <router-link
+        </div>
+        <div
           :to="'/user/user_promotion'"
           class="item"
           v-if="userInfo.is_promoter === 1 || userInfo.statu === 2"
         >
           <div>当前佣金</div>
           <div class="num">{{ userInfo.brokerage_price || 0 }}</div>
-        </router-link>
-        <router-link :to="'/user/integral'" class="item" v-else>
+        </div>
+        <div :to="'/user/integral'" class="item" v-else>
           <div>当前积分</div>
           <div class="num">{{ userInfo.integral || 0 }}</div>
-        </router-link>
+        </div>
         <router-link :to="'/user/user_coupon'" class="item">
           <div>优惠券</div>
           <div class="num">{{ userInfo.couponCount || 0 }}</div>

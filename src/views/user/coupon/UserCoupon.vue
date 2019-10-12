@@ -15,8 +15,10 @@
           <div class="data acea-row row-between-wrapper">
             <div v-if="item._end_time === 0">不限时</div>
             <div v-else>{{ item._add_time }}-{{ item._end_time }}</div>
-            <div class="bnt gray" v-if="item._type === 0">{{ item._msg }}</div>
-            <div class="bnt bg-color-red" v-else>{{ item._msg }}</div>
+            <div class="bnt bg-color-red" v-if="item._type === 1">
+              {{ item._msg }}
+            </div>
+            <div class="bnt gray" v-else>{{ item._msg }}</div>
           </div>
         </div>
       </div>

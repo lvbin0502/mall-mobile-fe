@@ -4,7 +4,7 @@
       <div class="picTxt acea-row row-between-wrapper">
         <div class="text">
           <div class="name">订单信息</div>
-          <div>
+          <div v-if="false">
             累计订单：{{ orderData.order_count || 0 }} 总消费：￥{{
               orderData.sum_price || 0
             }}
