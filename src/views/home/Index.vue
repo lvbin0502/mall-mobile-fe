@@ -1,7 +1,7 @@
 <template>
   <div class="index" v-cloak>
     <div class="header acea-row row-center-wrapper">
-      <div class="logo" v-if="false"><img :src="logoUrl" /></div>
+      <div class="logo"><img :src="logoUrl" /></div>
       <router-link :to="'/search'" class="search acea-row row-middle">
         <span class="iconfont icon-xiazai5"></span>搜索商品
       </router-link>
@@ -183,7 +183,13 @@
       </div>
     </div>
     <div v-if="lovely.length > 0">
-      <div class="adver" v-for="(item, index) in lovely" :key="index">
+      <div
+        class="adver"
+        v-for="(item, index) in lovely.map((item, idx) => {
+          if (idx === 0) return item;
+        })"
+        :key="index"
+      >
         <img :src="item.img" />
       </div>
     </div>

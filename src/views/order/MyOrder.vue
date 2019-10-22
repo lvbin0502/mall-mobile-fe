@@ -72,7 +72,7 @@
               v-if="order.bargain_id > 0"
               >砍价</span
             >
-            {{ order._add_time }}
+            {{ order.add_time }}
           </div>
           <div class="font-color-red">{{ getStatus(order) }}</div>
         </div>
@@ -228,7 +228,7 @@ import { mapGetters } from "vuex";
 import { isWeixin } from "@utils";
 
 const STATUS = [
-  "待付款",
+  "待付款1",
   "待发货",
   "待收货",
   "待评价",
@@ -237,7 +237,7 @@ const STATUS = [
   "",
   "",
   "",
-  "待付款"
+  "待付款1"
 ];
 
 const NAME = "MyOrder";
