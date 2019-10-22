@@ -183,13 +183,7 @@
       </div>
     </div>
     <div v-if="lovely.length > 0">
-      <div
-        class="adver"
-        v-for="(item, index) in lovely.map((item, idx) => {
-          if (idx === 0) return item;
-        })"
-        :key="index"
-      >
+      <div class="adver" v-for="(item, index) in lovely" :key="index">
         <img :src="item.img" />
       </div>
     </div>
