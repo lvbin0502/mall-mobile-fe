@@ -354,7 +354,7 @@ export default {
       that.$set(that, "lovely", res.data.lovely);
       that.$set(that, "benefit", res.data.benefit);
       that.$set(that, "couponList", res.data.couponList);
-      that.setOpenShare();
+      // that.setOpenShare();
       this.showCoupon =
         !cookie.has(HAS_COUPON_WINDOW) &&
         res.data.couponList.some(coupon => coupon.is_use);

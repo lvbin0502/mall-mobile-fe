@@ -50,7 +50,8 @@
           class="forgetPwd"
           @click="$router.push({ name: 'RetrievePassword' })"
         >
-          <span class="iconfont icon-wenti"></span>忘记密码
+          <span class="iconfont icon-wenti"></span>
+          忘记密码
         </div>
       </div>
       <div class="list" :hidden="current !== 1">
@@ -261,7 +262,11 @@ export default {
       if (that.formItem == 2) that.type = "register";
       await registerVerify({ phone: that.account, type: that.type })
         .then(res => {
-          that.$dialog.success(res.msg);
+          that.$dialog.alert({
+            mes:
+              res.msg +
+              "！演示系统 - 验证码统一为【 123456 】，购买正式版后会真实发送验证码"
+          });
           that.sendCode();
         })
         .catch(res => {

@@ -138,6 +138,17 @@
         </div>
       </div>
     </div>
+    
+    <div class="wrapper">
+      <div
+        class="item acea-row row-between-wrapper"
+      >
+        <div>优惠码</div>
+        <div class="discount">
+        <input placeholder="如有请输入" v-model="youhuima"/>
+        </div>
+      </div>
+    
     <div class="moneyList">
       <div
         class="item acea-row row-between-wrapper"
@@ -232,7 +243,8 @@ export default {
       orderPrice: {
         pay_price: "计算中"
       },
-      mark: ""
+      mark: "",
+      youhuima: ""
     };
   },
   computed: mapGetters(["userInfo"]),
@@ -330,7 +342,8 @@ export default {
         combinationId: this.orderGroupInfo.combination_id,
         bargainId: this.orderGroupInfo.bargain_id,
         from: this.from,
-        mark: this.mark || ""
+        mark: this.mark || "",
+        youhuima: this.youhuima || ""
       })
         .then(res => {
           this.$dialog.loading.close();
