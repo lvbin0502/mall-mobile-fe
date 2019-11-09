@@ -114,7 +114,7 @@ export function express(uni) {
 }
 
 /**
- * 订单查询物流信息
+ * 订单支付
  * @returns {*}
  */
 export function payOrder(uni, paytype, from) {
