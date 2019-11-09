@@ -1,7 +1,7 @@
 <template>
   <div class="index" v-cloak>
     <div class="header acea-row row-center-wrapper">
-      <div class="logo"><img :src="logoUrl" /></div>
+      <div class="logo"><img src="@assets/images/logo_search.png" /></div>
       <router-link :to="'/search'" class="search acea-row row-middle">
         <span class="iconfont icon-xiazai5"></span>搜索商品
       </router-link>
