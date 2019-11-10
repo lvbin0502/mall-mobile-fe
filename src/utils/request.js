@@ -19,7 +19,7 @@ function baseRequest(options) {
     toLogin();
     return Promise.reject({ msg: "未登录", toLogin: true });
   }
-  console.log(options);
+  // console.log('options',options);
   return instance(options).then(res => {
     const data = res.data || {};
 
@@ -30,6 +30,7 @@ function baseRequest(options) {
       toLogin();
       return Promise.reject({ msg: res.data.msg, res, data, toLogin: true });
     } else if (data.status === 200) {
+      // console.log('resolve:',data,res);
       return Promise.resolve(data, res);
     } else {
       return Promise.reject({ msg: res.data.msg, res, data });
