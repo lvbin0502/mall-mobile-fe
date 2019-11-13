@@ -3,14 +3,15 @@
     <div class="header acea-row row-center-wrapper">
       <div class="logo"><img :src="logoUrl" /></div>
       <router-link :to="'/search'" class="search acea-row row-middle">
-        <span class="iconfont icon-xiazai5"></span>搜索商品
+        <span class="iconfont icon-xiazai5"></span>
+        搜索商品
       </router-link>
     </div>
     <div class="slider-banner banner">
       <swiper :options="swiperOption" v-if="banner.length > 0">
-        <swiper-slide v-for="(item, index) in banner" :key="index">
-          <img :src="item.pic" />
-        </swiper-slide>
+        <swiper-slide v-for="(item, index) in banner" :key="index"
+          ><img :src="item.pic"
+        /></swiper-slide>
         <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
     </div>
@@ -87,9 +88,10 @@
           <div class="name line1">快速选择</div>
           <div class="line1">{{ info.fastInfo }}</div>
         </div>
-        <router-link :to="'/category'" class="more"
-          >更多<span class="iconfont icon-jiantou"></span
-        ></router-link>
+        <router-link :to="'/category'" class="more">
+          更多
+          <span class="iconfont icon-jiantou"></span>
+        </router-link>
       </div>
       <div class="scroll-product">
         <swiper class="swiper-wrapper" :options="swiperScroll">
@@ -104,9 +106,7 @@
                 query: { id: item.id, title: item.cate_name }
               }"
             >
-              <div class="img-box">
-                <img :src="item.pic" />
-              </div>
+              <div class="img-box"><img :src="item.pic" /></div>
               <div class="pro-info line1">{{ item.cate_name }}</div>
             </router-link>
           </swiper-slide>
@@ -119,9 +119,10 @@
           <div class="name line1">精品推荐</div>
           <div class="line1">{{ info.bastInfo }}</div>
         </div>
-        <router-link :to="{ path: '/hot_new_goods/' + 1 }" class="more"
-          >更多<span class="iconfont icon-jiantou"></span
-        ></router-link>
+        <router-link :to="{ path: '/hot_new_goods/' + 1 }" class="more">
+          更多
+          <span class="iconfont icon-jiantou"></span>
+        </router-link>
       </div>
       <div class="slider-banner boutique">
         <swiper class="swiper-wrapper" :options="swiperBoutique">
@@ -143,10 +144,12 @@
       <div class="hot-bg">
         <div class="title acea-row row-between-wrapper">
           <div class="text line1">
-            <span class="label">热门榜单</span>根据销量、搜索、好评等综合得出
+            <span class="label">热门榜单</span>
+            根据销量、搜索、好评等综合得出
           </div>
           <router-link :to="{ path: '/hot_new_goods/' + 2 }" class="more">
-            更多<span class="iconfont icon-jiantou"></span>
+            更多
+            <span class="iconfont icon-jiantou"></span>
           </router-link>
         </div>
       </div>
@@ -177,7 +180,8 @@
           </div>
           <div class="name line1">{{ item.store_name }}</div>
           <div class="money font-color-red">
-            ￥<span class="num">{{ item.price }}</span>
+            ￥
+            <span class="num">{{ item.price }}</span>
           </div>
         </router-link>
       </div>
@@ -195,13 +199,15 @@
       <div class="title acea-row row-between-wrapper">
         <div class="text">
           <div class="name line1">
-            首发新品<span class="new font-color-red">NEW~</span>
+            首发新品
+            <span class="new font-color-red">NEW~</span>
           </div>
           <div class="line1">{{ info.firstInfo }}</div>
         </div>
-        <router-link :to="{ path: '/hot_new_goods/' + 3 }" class="more"
-          >更多<span class="iconfont icon-jiantou"></span
-        ></router-link>
+        <router-link :to="{ path: '/hot_new_goods/' + 3 }" class="more">
+          更多
+          <span class="iconfont icon-jiantou"></span>
+        </router-link>
       </div>
       <div class="newProducts">
         <swiper class="swiper-wrapper" :options="swiperProducts">
@@ -211,9 +217,7 @@
             :key="index"
           >
             <router-link :to="{ path: '/detail/' + item.id }">
-              <div class="img-box">
-                <img :src="item.image" />
-              </div>
+              <div class="img-box"><img :src="item.image" /></div>
               <div class="pro-info line1">{{ item.store_name }}</div>
               <div class="money font-color-red">￥{{ item.price }}</div>
             </router-link>
@@ -227,9 +231,10 @@
           <div class="name line1">促销单品</div>
           <div class="line1">{{ info.salesInfo }}</div>
         </div>
-        <router-link :to="'/promotion'" class="more"
-          >更多<span class="iconfont icon-jiantou"></span
-        ></router-link>
+        <router-link :to="'/promotion'" class="more">
+          更多
+          <span class="iconfont icon-jiantou"></span>
+        </router-link>
       </div>
     </div>
     <Promotion-good :benefit="benefit"></Promotion-good>
@@ -343,17 +348,21 @@ export default {
     let that = this;
     getHomeData().then(res => {
       that.logoUrl = res.data.logoUrl;
-      that.$set(that, "banner", res.data.banner);
-      that.$set(that, "menus", res.data.menus);
-      that.$set(that, "roll", res.data.roll);
+      that.$set(that, "banner", res.data.banner ? res.data.banner : []);
+      that.$set(that, "menus", res.data.menus ? res.data.menus : []);
+      that.$set(that, "roll", res.data.roll ? res.data.roll : []);
       that.$set(that, "activity", res.data.activity);
       var activityOne = res.data.activity.shift() || {};
       that.$set(that, "activityOne", activityOne);
-      that.$set(that, "info", res.data.info);
-      that.$set(that, "likeInfo", res.data.likeInfo);
-      that.$set(that, "lovely", res.data.lovely);
-      that.$set(that, "benefit", res.data.benefit);
-      that.$set(that, "couponList", res.data.couponList);
+      that.$set(that, "info", res.data.info ? res.data.info : []);
+      that.$set(that, "likeInfo", res.data.likeInfo ? res.data.likeInfo : []);
+      that.$set(that, "lovely", res.data.lovely ? res.data.lovely : []);
+      that.$set(that, "benefit", res.data.benefit ? res.data.benefit : []);
+      that.$set(
+        that,
+        "couponList",
+        res.data.couponList ? res.data.couponList : []
+      );
       // that.setOpenShare();
       this.showCoupon =
         !cookie.has(HAS_COUPON_WINDOW) &&
