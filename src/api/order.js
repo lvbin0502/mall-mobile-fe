@@ -38,6 +38,7 @@ export function postOrderComputed(key, data) {
  * 获取指定金额可用优惠券
  * @param price
  * @returns {*}
+ * 以前是通过金额来获取可用的优惠券，但是现在换成了用订单key来换取列表。
  */
 export function getOrderCoupon(orderCacheKey) {
   return request.get("/order/coupons/" + orderCacheKey);

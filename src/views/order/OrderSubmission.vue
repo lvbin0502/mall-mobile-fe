@@ -141,7 +141,7 @@
       <div class="item acea-row row-between-wrapper">
         <div>优惠码</div>
         <div class="discount">
-          <input placeholder="如有请输入" v-model="youhuima" />
+          <input placeholder="如有请输入" v-model.lazy="youhuima" />
         </div>
       </div>
 
@@ -186,7 +186,7 @@
       <CouponListWindow
         v-on:couponchange="changecoupon($event)"
         v-model="showCoupon"
-        :price="orderPrice.total_price"
+        :price="orderGroupInfo.orderKey"
         :checked="usableCoupon.id"
         @checked="changeCoupon"
       ></CouponListWindow>
@@ -270,10 +270,16 @@ export default {
   },
   methods: {
     verifyCouponCode(couponCode = "") {
-      postCouponCode(couponCode).then(res => {
-        if (res.status !== 200) return;
-        this.getOrderCoupon(this.orderGroupInfo.orderKey);
-      });
+      postCouponCode(couponCode)
+        .then(res => {
+          if (res.status !== 200) return this.$dialog.toast({ mes: res.msg });
+          this.$dialog.toast({ mes: res.msg });
+          this.getOrderCoupon(this.orderGroupInfo.orderKey);
+        })
+        .catch(res => {
+          console.log("t123444666", res);
+          this.$dialog.toast({ mes: res.msg });
+        });
     },
     getOrderCoupon(orderCacheKey) {
       getOrderCoupon(orderCacheKey).then(res => {
@@ -307,7 +313,7 @@ export default {
         .then(res => {
           this.offlinePayStatus = res.data.offline_pay_status;
           this.orderGroupInfo = res.data;
-          this.deduction = res.data.deduction;
+          this.deduction = res.data.deduction || false;
           this.usableCoupon = res.data.usableCoupon || {};
           this.addressInfo = res.data.addressInfo || {};
           this.computedPrice();
