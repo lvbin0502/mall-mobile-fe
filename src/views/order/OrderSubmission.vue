@@ -1,8 +1,6 @@
 <template>
   <div class="order-submission">
-    <div class="line">
-      <img src="@assets/images/line.jpg" />
-    </div>
+    <div class="line"><img src="@assets/images/line.jpg" /></div>
     <div class="address acea-row row-between-wrapper" @click="addressTap">
       <div class="addressCon" v-if="addressInfo.real_name">
         <div class="name">
@@ -45,9 +43,9 @@
                 <i class="icon"></i>
                 <span class="integral">
                   当前积分
-                  <span class="num font-color-red">
-                    {{ userInfo.integral || 0 }}
-                  </span>
+                  <span class="num font-color-red">{{
+                    userInfo.integral || 0
+                  }}</span>
                 </span>
               </label>
             </div>
@@ -138,76 +136,81 @@
         </div>
       </div>
     </div>
-    
+
     <div class="wrapper">
-      <div
-        class="item acea-row row-between-wrapper"
-      >
+      <div class="item acea-row row-between-wrapper">
         <div>优惠码</div>
         <div class="discount">
-        <input placeholder="如有请输入" v-model="youhuima"/>
+          <input placeholder="如有请输入" v-model="youhuima" />
         </div>
       </div>
-    
-    <div class="moneyList">
-      <div
-        class="item acea-row row-between-wrapper"
-        v-if="orderPrice.total_price !== undefined"
-      >
-        <div>商品总价：</div>
-        <div class="money">￥{{ orderPrice.total_price }}</div>
+
+      <div class="moneyList">
+        <div
+          class="item acea-row row-between-wrapper"
+          v-if="orderPrice.total_price !== undefined"
+        >
+          <div>商品总价：</div>
+          <div class="money">￥{{ orderPrice.total_price }}</div>
+        </div>
+        <div
+          class="item acea-row row-between-wrapper"
+          v-if="orderPrice.pay_postage > 0"
+        >
+          <div>运费：</div>
+          <div class="money">￥{{ orderPrice.pay_postage }}</div>
+        </div>
+        <div
+          class="item acea-row row-between-wrapper"
+          v-if="orderPrice.coupon_price > 0"
+        >
+          <div>优惠券抵扣：</div>
+          <div class="money">-￥{{ orderPrice.coupon_price }}</div>
+        </div>
+        <div
+          class="item acea-row row-between-wrapper"
+          v-if="orderPrice.deduction_price > 0"
+        >
+          <div>积分抵扣：</div>
+          <div class="money">-￥{{ orderPrice.deduction_price }}</div>
+        </div>
       </div>
-      <div
-        class="item acea-row row-between-wrapper"
-        v-if="orderPrice.pay_postage > 0"
-      >
-        <div>运费：</div>
-        <div class="money">￥{{ orderPrice.pay_postage }}</div>
+      <div style="height:1.2rem"></div>
+      <div class="footer acea-row row-between-wrapper">
+        <div>
+          合计:
+          <span class="font-color-red">￥{{ orderPrice.pay_price }}</span>
+        </div>
+        <div class="settlement" @click="createOrder">立即结算</div>
       </div>
-      <div
-        class="item acea-row row-between-wrapper"
-        v-if="orderPrice.coupon_price > 0"
-      >
-        <div>优惠券抵扣：</div>
-        <div class="money">-￥{{ orderPrice.coupon_price }}</div>
-      </div>
-      <div
-        class="item acea-row row-between-wrapper"
-        v-if="orderPrice.deduction_price > 0"
-      >
-        <div>积分抵扣：</div>
-        <div class="money">-￥{{ orderPrice.deduction_price }}</div>
-      </div>
+      <CouponListWindow
+        v-on:couponchange="changecoupon($event)"
+        v-model="showCoupon"
+        :price="orderPrice.total_price"
+        :checked="usableCoupon.id"
+        @checked="changeCoupon"
+      ></CouponListWindow>
+      <AddressWindow
+        @checked="changeAddress"
+        @redirect="addressRedirect"
+        v-model="showAddress"
+        :checked="addressInfo.id"
+        ref="mychild"
+      ></AddressWindow>
     </div>
-    <div style="height:1.2rem"></div>
-    <div class="footer acea-row row-between-wrapper">
-      <div>
-        合计:
-        <span class="font-color-red">￥{{ orderPrice.pay_price }}</span>
-      </div>
-      <div class="settlement" @click="createOrder">立即结算</div>
-    </div>
-    <CouponListWindow
-      v-on:couponchange="changecoupon($event)"
-      v-model="showCoupon"
-      :price="orderPrice.total_price"
-      :checked="usableCoupon.id"
-      @checked="changeCoupon"
-    ></CouponListWindow>
-    <AddressWindow
-      @checked="changeAddress"
-      @redirect="addressRedirect"
-      v-model="showAddress"
-      :checked="addressInfo.id"
-      ref="mychild"
-    ></AddressWindow>
   </div>
 </template>
 <script>
 import OrderGoods from "@components/OrderGoods";
 import CouponListWindow from "@components/CouponListWindow";
 import AddressWindow from "@components/AddressWindow";
-import { postOrderConfirm, postOrderComputed, createOrder } from "@api/order";
+import {
+  postOrderConfirm,
+  postOrderComputed,
+  createOrder,
+  postCouponCode,
+  getOrderCoupon
+} from "@api/order";
 import { mapGetters } from "vuex";
 import { pay } from "@libs/wechat";
 import { isWeixin } from "@utils";
@@ -252,6 +255,9 @@ export default {
     useIntegral() {
       this.computedPrice();
     },
+    youhuima(couponCode) {
+      this.verifyCouponCode(couponCode);
+    },
     $route(n) {
       if (n.name === NAME) this.getCartInfo();
     }
@@ -263,6 +269,18 @@ export default {
       that.pinkId = that.$route.query.pinkid;
   },
   methods: {
+    verifyCouponCode(couponCode = "") {
+      postCouponCode(couponCode).then(res => {
+        if (res.status !== 200) return;
+        this.getOrderCoupon(this.orderGroupInfo.orderKey);
+      });
+    },
+    getOrderCoupon(orderCacheKey) {
+      getOrderCoupon(orderCacheKey).then(res => {
+        this.usableCoupon = res.data[0] || {};
+        this.computedPrice();
+      });
+    },
     computedPrice() {
       postOrderComputed(this.orderGroupInfo.orderKey, {
         addressId: this.addressInfo.id,
@@ -285,7 +303,6 @@ export default {
         this.$dialog.error("参数有误");
         return this.$router.go(-1);
       }
-
       postOrderConfirm(cartIds)
         .then(res => {
           this.offlinePayStatus = res.data.offline_pay_status;
@@ -342,8 +359,7 @@ export default {
         combinationId: this.orderGroupInfo.combination_id,
         bargainId: this.orderGroupInfo.bargain_id,
         from: this.from,
-        mark: this.mark || "",
-        youhuima: this.youhuima || ""
+        mark: this.mark || ""
       })
         .then(res => {
           this.$dialog.loading.close();

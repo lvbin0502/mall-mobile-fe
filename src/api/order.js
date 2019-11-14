@@ -13,6 +13,18 @@ export function postOrderConfirm(cartId) {
 }
 
 /**
+ * 验证优惠码
+ * @param couponCode
+ * @param data
+ * @returns {*}
+ */
+export function postCouponCode(couponCode) {
+  return request.post("/coupon/verifyCouponCode", {
+    couponCode: couponCode
+  });
+}
+
+/**
  * 计算订单金额
  * @param key
  * @param data
@@ -27,8 +39,8 @@ export function postOrderComputed(key, data) {
  * @param price
  * @returns {*}
  */
-export function getOrderCoupon(price) {
-  return request.get("/order/coupons/" + (parseFloat(price) || 0));
+export function getOrderCoupon(orderCacheKey) {
+  return request.get("/order/coupons/" + orderCacheKey);
 }
 
 /**
