@@ -189,13 +189,7 @@
         </div>
         <div class="settlement" @click="createOrder">立即结算</div>
       </div>
-      <CouponListWindow
-        v-on:couponchange="changecoupon($event)"
-        v-model="showCoupon"
-        :price="orderGroupInfo.orderKey"
-        :checked="usableCoupon.id"
-        @checked="changeCoupon"
-      ></CouponListWindow>
+
       <AddressWindow
         @checked="changeAddress"
         @redirect="addressRedirect"
@@ -204,6 +198,13 @@
         ref="mychild"
       ></AddressWindow>
     </div>
+    <CouponListWindow
+      v-on:couponchange="changecoupon($event)"
+      v-model="showCoupon"
+      :price="orderGroupInfo.orderKey"
+      :checked="usableCoupon.id"
+      @checked="changeCoupon"
+    ></CouponListWindow>
   </div>
 </template>
 <script>

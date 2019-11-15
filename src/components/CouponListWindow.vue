@@ -2,37 +2,33 @@
   <div>
     <div class="coupon-list-window" :class="value === true ? 'on' : ''">
       <div class="title">
-        优惠券
-        <span class="iconfont icon-guanbi" @click="close"></span>
+        优惠券 <span class="iconfont icon-guanbi" @click="close"></span>
       </div>
-      <div v-if="couponList.length > 0">
-        <div class="coupon-list">
-          <div
-            class="item acea-row row-center-wrapper"
-            v-for="coupon in couponList"
-            :key="coupon.id"
-            @click="click(coupon)"
-          >
-            <div class="money">
-              ￥
-              <span class="num">{{ coupon.coupon_price }}</span>
-            </div>
-            <div class="text">
-              <div class="condition line1">{{ coupon.coupon_title }}</div>
-              <div class="data acea-row row-between-wrapper">
-                <div v-if="coupon.end_time === 0">不限时</div>
-                <div v-else>{{ coupon.add_time }}-{{ coupon.end_time }}</div>
-                <div
-                  class="iconfont icon-xuanzhong1 font-color-red"
-                  v-if="checked === coupon.id"
-                ></div>
-                <div class="iconfont icon-weixuanzhong" v-else></div>
-              </div>
+      <div class="coupon-list" v-if="couponList.length > 0">
+        <div
+          class="item acea-row row-center-wrapper"
+          v-for="coupon in couponList"
+          :key="coupon.id"
+          @click="click(coupon)"
+        >
+          <div class="money">
+            ￥<span class="num">{{ coupon.coupon_price }}</span>
+          </div>
+          <div class="text">
+            <div class="condition line1">{{ coupon.coupon_title }}</div>
+            <div class="data acea-row row-between-wrapper">
+              <div v-if="coupon._end_time === 0">不限时</div>
+              <div v-else>{{ coupon._add_time }}-{{ coupon._end_time }}</div>
+              <div
+                class="iconfont icon-xuanzhong1 font-color-red"
+                v-if="checked === coupon.id"
+              ></div>
+              <div class="iconfont icon-weixuanzhong" v-else></div>
             </div>
           </div>
         </div>
-        <div class="couponNo bg-color-red" @click="couponNo">不使用优惠券</div>
       </div>
+      <div class="couponNo bg-color-red" @click="couponNo">不使用优惠券</div>
       <div v-if="!couponList.length && loaded">
         <div class="pictrue">
           <img src="@assets/images/noCoupon.png" class="image" />
