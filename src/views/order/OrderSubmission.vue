@@ -33,6 +33,19 @@
           <span class="iconfont icon-jiantou"></span>
         </div>
       </div>
+      <div
+        class="item acea-row row-between-wrapper"
+        v-if="youhuimaStatus === false"
+      >
+        <div>优惠码</div>
+        <div class="discount">
+          <input
+            placeholder="如有请输入"
+            v-model.lazy="youhuima"
+            style="text-align:right"
+          />
+        </div>
+      </div>
       <div class="item acea-row row-between-wrapper" v-if="deduction === false">
         <div>积分抵扣</div>
         <div class="discount">
@@ -138,13 +151,6 @@
     </div>
 
     <div class="wrapper">
-      <div class="item acea-row row-between-wrapper">
-        <div>优惠码</div>
-        <div class="discount">
-          <input placeholder="如有请输入" v-model.lazy="youhuima" />
-        </div>
-      </div>
-
       <div class="moneyList">
         <div
           class="item acea-row row-between-wrapper"
@@ -247,7 +253,8 @@ export default {
         pay_price: "计算中"
       },
       mark: "",
-      youhuima: ""
+      youhuima: "",
+      youhuimaStatus: false
     };
   },
   computed: mapGetters(["userInfo"]),
@@ -265,19 +272,22 @@ export default {
   mounted: function() {
     var that = this;
     this.getCartInfo();
+    this.youhuima = "";
+    this.youhuimaStatus = false;
     if (that.$route.query.pinkid !== undefined)
       that.pinkId = that.$route.query.pinkid;
   },
   methods: {
     verifyCouponCode(couponCode = "") {
+      if (couponCode.length < 1) return;
       postCouponCode(couponCode)
         .then(res => {
           if (res.status !== 200) return this.$dialog.toast({ mes: res.msg });
           this.$dialog.toast({ mes: res.msg });
-          this.getOrderCoupon(this.orderGroupInfo.orderKey);
+          (this.youhuimaStatus = true),
+            this.getOrderCoupon(this.orderGroupInfo.orderKey);
         })
         .catch(res => {
-          console.log("t123444666", res);
           this.$dialog.toast({ mes: res.msg });
         });
     },
@@ -317,6 +327,7 @@ export default {
           this.usableCoupon = res.data.usableCoupon || {};
           this.addressInfo = res.data.addressInfo || {};
           this.computedPrice();
+          this.youhuima = "";
         })
         .catch(() => {
           this.$dialog.error("加载订单数据失败");
