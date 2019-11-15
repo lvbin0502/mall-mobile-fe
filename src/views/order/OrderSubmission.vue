@@ -83,7 +83,7 @@
         ></textarea>
       </div>
     </div>
-    <div class="wrapper">
+    <div class="wrapper" v-if="false">
       <div class="item">
         <div>支付方式</div>
         <div class="list">
@@ -328,6 +328,7 @@ export default {
           this.addressInfo = res.data.addressInfo || {};
           this.computedPrice();
           this.youhuima = "";
+          this.youhuimaStatus = false;
         })
         .catch(() => {
           this.$dialog.error("加载订单数据失败");
